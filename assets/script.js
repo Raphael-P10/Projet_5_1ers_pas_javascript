@@ -18,15 +18,18 @@ const slides = [
 ]
 
 const dots = document.getElementById("dots");
+const img = document.querySelector(".banner-img");
+let currentIndex = 0;
+const tagline = document.getElementById("tagline");
+const arrowLeft = document.querySelector(".arrow_left");
+const arrowRight = document.querySelector(".arrow_right");
 
 for (let i = 0; i < slides.length; i++) {
 	let dot = document.createElement("span");
 	dot.classList.add("dot");
 	dots.appendChild(dot);
 }
-
-const arrowLeft = document.querySelector(".arrow_left");
-const arrowRight = document.querySelector(".arrow_right");
+updateCarousel("init");
 
 arrowLeft.onclick = function () {
 	updateCarousel("left");
@@ -37,5 +40,20 @@ arrowRight.onclick = function () {
 }
 
 function updateCarousel(direction) {
-alert(direction);
+	dots.children[currentIndex].classList.remove("dot_selected");
+	if (direction == "right") {
+		currentIndex++;
+	}
+	if (direction == "left") {
+		currentIndex--;
+	}
+	if (currentIndex == slides.length) {
+		currentIndex = 0;
+	}
+	if (currentIndex == -1) {
+		currentIndex = slides.length-1;
+	}
+	img.src = "./assets/images/slideshow/" + slides[currentIndex].image;
+	tagline.innerHTML = slides[currentIndex].tagLine;
+	dots.children[currentIndex].classList.add("dot_selected");
 }
